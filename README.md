@@ -1,6 +1,6 @@
-# p_limit_cli_progress_deno
+# p-limit + cli-progress
 
-a simple example of usage of p-limit & cli-progress with deno :
+A simple example of usage of p-limit & cli-progress with deno :
 
 ```typescript
 import { plimitp } from "https://deno.land/x/p_limit_cli_progress@0.1.0/p_limit_progress_bar.ts";
@@ -13,9 +13,12 @@ const limitp = plimitp(10);
 data.map(({ value, title }) => limitp(() => sleep(100 + value * 1000), title));
 ```
 
-Another with several bar :
+Another example with several bar :
+
+![example_multibar.svg](example_multibar.svg)
 
 ```typescript
+// example_multibar.ts
 import {
   createMultibar,
   PlimitProgressBar,
