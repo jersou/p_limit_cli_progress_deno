@@ -3,7 +3,7 @@
 A simple example of usage of p-limit & cli-progress with deno :
 
 ```typescript
-import { plimitp } from "https://deno.land/x/p_limit_cli_progress@0.1.0/p_limit_progress_bar.ts";
+import { plimitp } from "https://deno.land/x/p_limit_cli_progress@0.1.1/p_limit_progress_bar.ts";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const data = [...Array(100).keys()]
@@ -22,7 +22,7 @@ Another example with several bar :
 import {
   createMultibar,
   PlimitProgressBar,
-} from "https://deno.land/x/p_limit_cli_progress@0.1.0/p_limit_progress_bar.ts";
+} from "https://deno.land/x/p_limit_cli_progress@0.1.1/p_limit_progress_bar.ts";
 
 const generateTestData = () =>
   [...Array(30).keys()]
