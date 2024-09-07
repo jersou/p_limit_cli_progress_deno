@@ -3,7 +3,8 @@
   "packages": {
     "specifiers": {
       "npm:cli-progress@3.12.0": "npm:cli-progress@3.12.0",
-      "npm:p-limit@5.0.0": "npm:p-limit@5.0.0"
+      "npm:p-limit@5.0.0": "npm:p-limit@5.0.0",
+      "npm:p-limit@6.1.0": "npm:p-limit@6.1.0"
     },
     "npm": {
       "ansi-regex@5.0.1": {
@@ -30,6 +31,12 @@
           "yocto-queue": "yocto-queue@1.0.0"
         }
       },
+      "p-limit@6.1.0": {
+        "integrity": "sha512-H0jc0q1vOzlEk0TqAKXKZxdl7kX3OFUzCnNVUnq5Pc3DGo0kpeaMuPqxQn235HibwBEb0/pm9dgKTjXy66fBkg==",
+        "dependencies": {
+          "yocto-queue": "yocto-queue@1.1.1"
+        }
+      },
       "string-width@4.2.3": {
         "integrity": "sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==",
         "dependencies": {
@@ -46,6 +53,10 @@
       },
       "yocto-queue@1.0.0": {
         "integrity": "sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==",
+        "dependencies": {}
+      },
+      "yocto-queue@1.1.1": {
+        "integrity": "sha512-b4JR1PFR10y1mKjhHY9LaGo6tmrgjit7hxVIeAmyMw3jegXR4dhYqLaQF5zMXZxY7tLpMyJeLjr1C4rLmkVe8g==",
         "dependencies": {}
       }
     }

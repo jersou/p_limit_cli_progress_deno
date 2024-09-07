@@ -1,11 +1,11 @@
 #!/usr/bin/env -S deno run -A
 
 import cliProgress from "npm:cli-progress@3.12.0";
-import pLimit, { LimitFunction } from "npm:p-limit@5.0.0";
+import pLimit, { type LimitFunction } from "npm:p-limit@6.1.0";
 export { cliProgress, pLimit };
 export type { LimitFunction };
 
-export function createMultibar() {
+export function createMultibar(): cliProgress.MultiBar {
   return new cliProgress.MultiBar({
     hideCursor: true,
     stopOnComplete: true,
@@ -17,7 +17,9 @@ export function createMultibar() {
 
 export class PlimitProgressBar {
   tot = 0;
-  inProgress = new Set<{ title: string; timestamp: number }>();
+  inProgress: Set<{ title: string; timestamp: number }> = new Set<
+    { title: string; timestamp: number }
+  >();
   bar: cliProgress.Bar;
   limit: LimitFunction;
   barTitle: string;
@@ -58,11 +60,17 @@ export class PlimitProgressBar {
     });
   }
 }
+
+export type PlimitpReturn = (
+  fn: () => Promise<unknown>,
+  title: string,
+) => Promise<unknown>;
+
 export function plimitp(
   max: number,
-  barTitle: string,
+  barTitle: string = "",
   multiBar?: cliProgress.MultiBar,
-) {
+): PlimitpReturn {
   const plimitProgressBar = new PlimitProgressBar(max, barTitle, multiBar);
   return (fn: () => Promise<unknown>, title = "") =>
     plimitProgressBar.limitp(fn, title);

@@ -1,9 +1,11 @@
 # p-limit + cli-progress
 
-A simple example of usage of p-limit & cli-progress with deno :
+A simple example of usage of [p-limit](https://www.npmjs.com/package/p-limit) &
+[cli-progress](https://www.npmjs.com/package/cli-progress) with deno :
 
 ```typescript
-import { plimitp } from "https://deno.land/x/p_limit_cli_progress@0.1.1/p_limit_progress_bar.ts";
+import { plimitp } from "jsr:@jersou/p-limit-cli-progress@0.2.0";
+// or import { plimitp } from "@jersou/p-limit-cli-progress"; // after "deno add @jersou/p-limit-cli-progress"
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const data = [...Array(100).keys()]
@@ -22,7 +24,8 @@ Another example with several bar :
 import {
   createMultibar,
   PlimitProgressBar,
-} from "https://deno.land/x/p_limit_cli_progress@0.1.1/p_limit_progress_bar.ts";
+} from "jsr:@jersou/p-limit-cli-progress@0.2.0";
+// or from "@jersou/p-limit-cli-progress"; // after "deno add @jersou/p-limit-cli-progress"
 
 const generateTestData = () =>
   [...Array(30).keys()]
