@@ -3,8 +3,13 @@
 import cliProgress from "npm:cli-progress@3.12.0";
 import pLimit, { type LimitFunction } from "npm:p-limit@6.1.0";
 export { cliProgress, pLimit };
+
 export type { LimitFunction };
 
+/**
+ * Create an empty MultiBar
+ * @returns new MultiBar
+ */
 export function createMultibar(): cliProgress.MultiBar {
   return new cliProgress.MultiBar({
     hideCursor: true,
@@ -15,6 +20,9 @@ export function createMultibar(): cliProgress.MultiBar {
   });
 }
 
+/**
+ * PlimitProgressBar represents a line of a MultiBar
+ */
 export class PlimitProgressBar {
   tot = 0;
   inProgress: Set<{ title: string; timestamp: number }> = new Set<
@@ -23,8 +31,14 @@ export class PlimitProgressBar {
   bar: cliProgress.Bar;
   limit: LimitFunction;
   barTitle: string;
+
+  /**
+   * @param concurrency - Concurrency limit. Minimum: `1`.
+   * @param barTitle progress bar title
+   * @param multiBar add a line to the MultiBar, or create a new MultiBar
+   */
   constructor(
-    max: number,
+    concurrency: number,
     barTitle: string,
     public multiBar: cliProgress.MultiBar = createMultibar(),
   ) {
@@ -34,15 +48,24 @@ export class PlimitProgressBar {
         " \u001b[92m{bar}\u001b[0m | {title} | {value}/{total} | {duration_formatted} | {steps}",
     });
     this.bar.update({ steps: "" });
-    this.limit = pLimit(max);
+    this.limit = pLimit(concurrency);
     this.bar.stop();
   }
+
+  /**
+   * update the cliProgress.Bar
+   */
   updateSteps() {
     const steps = Array.from(this.inProgress.values())
       .sort((a, b) => a.timestamp - b.timestamp)
       .map((value) => value.title).join(", ");
     this.bar.update({ steps });
   }
+
+  /**
+   * @param fn Promise-returning/async function.
+   * @param title - to display on right of the progress bar when pending
+   */
   limitp<R>(fn: () => Promise<R>, title = ""): Promise<R> {
     this.bar.start();
     this.tot++;
@@ -61,17 +84,32 @@ export class PlimitProgressBar {
   }
 }
 
+/**
+ * plimitp return
+ *
+ * @param fn Promise-returning/async function.
+ * @param title - to display on right of the progress bar when pending
+ */
 export type PlimitpReturn = (
   fn: () => Promise<unknown>,
   title: string,
 ) => Promise<unknown>;
 
+/**
+ * Run multiple promise-returning & async functions with limited concurrency, and
+ * display a progress bar of resolved promise / total count of promises.
+ *
+ * @param concurrency concurrency - Concurrency limit. Minimum: `1`.
+ * @param barTitle progress bar title
+ * @param multiBar cliProgress.MultiBar instance
+ * @returns A PlimitpReturn function.
+ */
 export function plimitp(
-  max: number,
+  concurrency: number,
   barTitle: string = "",
   multiBar?: cliProgress.MultiBar,
 ): PlimitpReturn {
-  const plimitProgressBar = new PlimitProgressBar(max, barTitle, multiBar);
+  const plimitProgressBar = new PlimitProgressBar(concurrency, barTitle, multiBar);
   return (fn: () => Promise<unknown>, title = "") =>
     plimitProgressBar.limitp(fn, title);
 }
